@@ -16,13 +16,16 @@ type DoctorDoc struct {
 	UpdatedAt      time.Time          `bson:"updated_at"`
 }
 
-func FromDoctorDomain(d *domain.Doctor) *DoctorDoc {
+func FromDomain(d *domain.Doctor) *DoctorDoc {
 	doc := &DoctorDoc{
 		FullName:       d.FullName,
 		Specialization: d.Specialization,
 		Email:          d.Email,
-		CreatedAt:      time.Now(),
+		CreatedAt:      d.CreatedAt,
 		UpdatedAt:      time.Now(),
+	}
+	if doc.CreatedAt.IsZero() {
+		doc.CreatedAt = time.Now()
 	}
 	if d.ID != "" {
 		if objID, err := primitive.ObjectIDFromHex(d.ID); err == nil {

@@ -20,7 +20,7 @@ func NewDoctorRepository(client *mongo.Client) *DoctorRepository {
 }
 
 func (r *DoctorRepository) Create(ctx context.Context, doctor *domain.Doctor) error {
-	doc := FromDoctorDomain(doctor)
+	doc := FromDomain(doctor)
 
 	res, err := r.collection.InsertOne(ctx, doc)
 	if err != nil {
