@@ -19,16 +19,16 @@
 
 5. How to Run project Locally
    1) Start doctor service:
-        cd doctor-service
-        go run cmd/main.go
+        - cd doctor-service
+        - go run cmd/main.go
    2) Start Appointment service:
-        cd appointment-service
-        go run cmd/main.go
+        - cd appointment-service
+        - go run cmd/main.go
    3) Use Postman to test the endpoints and interaction with database
 
 6. Why a shared database was not used
    Each microservice owns its data in its separate database. If both services shared one DB they would be tightly couples. With such separation, for example, Doctor service can switch to another DB (like PostrgeSQL), and Appointment service can stay on MongoDB and nothing will crash due to Independence
 
-7. Failure scenarios and resilience
+8. Failure scenarios and resilience
    What happens when Doctor Service is unavailable? The Appointment Service will receive a connection error: DoctorExists() returns false, err, and the Appointment Service returns a 500 Internal Server Error to the user
    In a production-grade system, I would add: timeouts - set via context so Appointment service doesn't wait forever; retries - auto retry request again 2-3 times; circuit breakers - id the Doctor service fails repeatedly, the "circuit opens," and the Appointment Service stops trying for a while, returning a fast "Service Unavailable" message to protect the system from crashing.
